@@ -149,6 +149,12 @@ class Settings(BaseSettings):
         default=1000, description="Maximum articles to crawl per run"
     )
 
+    # HTTP Client Settings
+    HTTP_VERIFY_SSL: bool = Field(
+        default=True,
+        description="Verify SSL certificates for HTTP requests (set False only for development/testing)",
+    )
+
     # Environment alias
     @property
     def ENVIRONMENT(self) -> str:
