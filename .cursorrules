@@ -1,0 +1,240 @@
+# FastAPI Service - Cursor AI Rules
+
+## Project Context
+This is a FastAPI boilerplate for building modern Python web services with clean architecture, PostgreSQL for data storage, Redis for caching, and comprehensive tooling for development and deployment.
+
+**Repository**: `fastapi-service`  
+**Author**: Lalu Erfandi Maula Yusnu <nunenuh@gmail.com>  
+**Python Version**: 3.11+  
+**Dependency Management**: Poetry
+
+## Project Structure
+
+```
+fastapi-service/
+├── src/fastapi_service/     # Main application package
+│   ├── core/                   # Core functionality (config, logging, auth, dependencies)
+│   ├── modules/                # Feature modules
+│   │   ├── health/            # Health check endpoints
+│   │   │   ├── apiv1/         # API handlers (HTTP layer)
+│   │   │   ├── services.py    # Business logic services
+│   │   │   ├── usecase.py     # Use case orchestration
+│   │   │   └── schemas.py     # Pydantic models
+│   │   └── <your-module>/     # Your feature modules
+│   │   ├── apiv1/              # API handlers (HTTP layer)
+│   │   │   └── handler.py      # Route handlers
+│   │   ├── usecase.py          # Use case orchestration layer
+│   │   ├── services.py         # Business logic services
+│   │   ├── repositories.py     # Data access layer
+│   │   └── schemas.py          # Pydantic models
+│   ├── shared/                 # Shared utilities and exceptions
+│   ├── main.py                 # FastAPI application entry point
+│   └── router.py               # Main API router
+├── tests/                      # Test suite
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── e2e/                    # End-to-end tests
+├── docker/                     # Docker configurations
+│   ├── docker-compose.build.yml    # Build configurations
+│   ├── docker-compose.run.yml     # Production runtime
+│   ├── docker-compose.dev.yml     # Development runtime
+│   └── images/                 # Dockerfile images
+│       ├── Dockerfile.base     # Base image
+│       ├── Dockerfile.prd      # Production image
+│       └── Dockerfile.stg      # Staging image
+├── docs/                       # Comprehensive documentation
+│   ├── architecture/           # Architecture diagrams and design
+│   ├── current/                # Current project status
+│   ├── deployment/            # Deployment guides
+│   ├── development/           # Development setup guides
+│   ├── implementation/        # Implementation details
+│   ├── infra/                 # Infrastructure documentation
+│   ├── issues/                # Known issues tracking
+│   ├── planning/              # Project planning documents
+│   ├── quickstart/            # Quick start guides
+│   ├── testing/               # Testing documentation
+│   └── troubleshooting/       # Troubleshooting guides
+├── alembic/                    # Database migrations
+├── specs/                      # AI-readable specifications
+├── pyproject.toml             # Poetry project configuration
+├── flake.nix                   # Nix flake for development environment
+├── Makefile                    # Development and deployment commands
+└── .env.example               # Environment variables template
+```
+
+## Code Style
+- Follow PEP 8 Python style guide
+- Use type hints for all function signatures
+- Prefer async/await for I/O operations
+- Use Pydantic models for data validation
+- Follow FastAPI best practices
+- Use Black for code formatting (line length: 88)
+- Use isort for import sorting (profile: black)
+
+## Architecture Patterns
+- Use layered architecture: Handler → UseCase → Service/Repository → Database
+- Keep handlers thin, delegate business logic to use cases
+- Use cases orchestrate business logic and coordinate between services/repositories
+- Services handle business operations and domain logic
+- Repositories handle data access and persistence
+- Use dependency injection for testability
+- Follow repository pattern for data access
+- Separate concerns: handlers, use cases, services, repositories, models
+
+## Git Workflow (MANDATORY)
+
+### Branch Naming
+**REQUIRED**: All branches MUST include issue number in format: `<type>/issue-<number>-<description>`
+
+Examples:
+- `feature/issue-123-add-kompas-spider`
+- `fix/issue-456-handle-timeout-errors`
+- `docs/issue-789-update-readme`
+
+### Commit Messages
+**REQUIRED**: All commits MUST include issue reference extracted from branch name.
+
+Format:
+```
+<type>(scope): <description>
+
+Closes #<issue-number>
+OR
+Refs #<issue-number>
+```
+
+**Pre-commit Checklist:**
+1. Extract issue number from branch name (`git branch --show-current`)
+2. Include issue reference in commit footer (`Closes #123` or `Refs #123`)
+3. Commit files individually, not directories
+4. Use conventional commit types (feat, fix, docs, refactor, test, chore, perf)
+
+### Commit Types
+- `feat` - New functionality
+- `fix` - Bug repairs
+- `docs` - Documentation only
+- `refactor` - Code restructuring
+- `test` - Adding tests
+- `chore` - Maintenance tasks
+- `perf` - Performance improvements
+
+## Development Workflow
+
+### Setup
+```bash
+make install          # Install dependencies and setup pre-commit hooks
+```
+
+### Running Locally
+```bash
+make run              # Run FastAPI application locally
+make dev              # Run in development mode with auto-reload
+```
+
+### Docker Development
+```bash
+make docker-base-build    # Build base Docker image first
+make docker-build         # Build service image (default: api-local)
+make docker-dev           # Run development environment
+make docker-logs-dev      # View development logs
+make docker-stop          # Stop all services
+```
+
+### Testing
+```bash
+make test             # Run all tests
+make test-coverage    # Run tests with coverage report
+```
+
+### Code Quality
+```bash
+make format           # Auto-format code (black + isort)
+make lint-all         # Run all linting checks
+make clean            # Clean temporary files
+```
+
+## Docker Commands
+
+### Building
+- `make docker-base-build` - Build base image
+- `make docker-build` - Build service image (SERVICE=api-local|api-staging|api-main)
+- `make docker-build-push` - Build and push image
+
+### Running
+- `make docker-run` - Production environment
+- `make docker-dev` - Development environment
+- `make docker-stop` - Stop all services
+- `make docker-restart` - Restart production
+- `make docker-dev-restart` - Restart development
+
+### Logs
+- `make docker-logs` - Production logs
+- `make docker-logs-dev` - Development logs
+
+## Testing Strategy
+- Write unit tests for all business logic (`tests/unit/`)
+- Write integration tests for API endpoints (`tests/integration/`)
+- Write E2E tests for full workflows (`tests/e2e/`)
+- Aim for >80% code coverage
+- Use pytest fixtures for test setup
+- Mock external dependencies (database, Redis, Elasticsearch)
+
+## Documentation
+- Document all public APIs with docstrings
+- Keep README.md updated
+- Document complex algorithms and decisions
+- Use type hints as inline documentation
+- Add documentation to appropriate `docs/` subdirectories:
+  - Architecture changes → `docs/architecture/`
+  - Implementation details → `docs/implementation/`
+  - Deployment procedures → `docs/deployment/`
+  - Known issues → `docs/issues/`
+
+## Dependencies
+- Use Poetry for dependency management
+- Pin dependency versions in pyproject.toml
+- Avoid adding unnecessary dependencies
+- Keep dependencies up to date with `make update`
+- Core dependencies:
+  - FastAPI, Uvicorn (API framework)
+  - Scrapy, Newspaper3k (Web scraping)
+  - SQLAlchemy, PostgreSQL (Database)
+  - Redis (Cache/Queue)
+  - Elasticsearch (Search)
+
+## Error Handling
+- Use custom exceptions from `shared.exceptions`
+- Log errors with appropriate levels
+- Return meaningful error messages to API consumers
+- Handle edge cases gracefully
+- Use structured logging
+
+## Environment Configuration
+- Use `.env` file for local development (copy from `env.example`)
+- Configuration managed via Pydantic Settings (`core.config`)
+- Environment variables prefixed appropriately:
+  - `APP_*` - Application settings
+  - `DB_*` - Database settings
+  - `REDIS_*` - Redis settings
+  - `ELASTICSEARCH_*` - Elasticsearch settings
+  - `SCRAPY_*` - Scrapy settings
+  - `CRAWLER_*` - Crawler settings
+
+## Nix Development Environment
+- Use `flake.nix` for reproducible development environment
+- Run `nix develop` to enter development shell
+- Includes Python 3.11, Poetry, PostgreSQL, Redis, Elasticsearch dependencies
+
+## Makefile Commands Reference
+- Development: `install`, `test`, `test-coverage`, `lint-all`, `format`, `clean`, `run`, `dev`
+- Docker: `docker-base-build`, `docker-build`, `docker-build-push`, `docker-run`, `docker-dev`, `docker-stop`, `docker-logs`, `docker-logs-dev`, `docker-restart`, `docker-dev-restart`
+- Utilities: `update`, `info`, `version-last`, `version-next`
+
+## Best Practices
+- Always extract issue number from branch name before committing
+- Use `make` commands instead of direct Poetry/Docker commands when possible
+- Keep commits atomic and focused
+- Write tests before implementing features (TDD when possible)
+- Update documentation when making changes
+- Follow the established directory structure
+- Use health check endpoints for monitoring (`/api/v1/health/*`)

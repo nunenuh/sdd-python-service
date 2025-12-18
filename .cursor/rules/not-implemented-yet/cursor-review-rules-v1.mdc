@@ -1,0 +1,27 @@
+---
+description: Code review guidelines (not implemented yet)
+globs: 
+alwaysApply: false
+---
+# Cursor Review Rules v1 (Not Implemented Yet)
+
+## Review Checklist
+- [ ] Code follows style guide
+- [ ] Tests are included
+- [ ] Documentation updated
+- [ ] No security issues
+- [ ] Performance considered
+
+## Review Focus Areas
+- Logic correctness
+- Error handling
+- Edge cases
+- Security vulnerabilities
+- Performance implications
+
+## Review Process
+1. Automated checks pass
+2. Manual code review
+3. Test execution
+4. Documentation review
+5. Security scan

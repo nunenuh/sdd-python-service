@@ -1,0 +1,25 @@
+---
+description: Code refactoring guidelines (not implemented yet)
+globs: 
+alwaysApply: false
+---
+# Cursor Refactor Rules v1 (Not Implemented Yet)
+
+## Refactoring Guidelines
+- Extract common patterns
+- Reduce code duplication
+- Improve readability
+- Maintain backward compatibility
+
+## When to Refactor
+- Code smells detected
+- Performance issues
+- Technical debt accumulation
+- Before adding new features
+
+## Refactoring Checklist
+- [ ] Tests pass before refactoring
+- [ ] Write tests for new code
+- [ ] Small, incremental changes
+- [ ] Review with team
+- [ ] Update documentation

@@ -1,0 +1,52 @@
+# version: "3.8"  # Removed - obsolete in newer Docker Compose versions
+
+services:
+  api-main:
+    build:
+      context: ..
+      dockerfile: docker/images/Dockerfile.prd
+      args:
+        - VERSION=${VERSION:-0.1.0}
+        - GIT_COMMIT=${GIT_COMMIT:-unknown}
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+        - BASE_IMAGE=nunenuh/fastapi-service-base:${VERSION:-latest}
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-main}
+    depends_on:
+      - api-base
+
+  api-staging:
+    build:
+      context: ..
+      dockerfile: docker/images/Dockerfile.stg
+      args:
+        - VERSION=${VERSION:-0.1.0}
+        - GIT_COMMIT=${GIT_COMMIT:-unknown}
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+        - BASE_IMAGE=nunenuh/fastapi-service-base:${VERSION:-latest}
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-staging}
+    depends_on:
+      - api-base
+
+  api-local:
+    build:
+      context: ..
+      dockerfile: docker/images/Dockerfile.stg
+      args:
+        - VERSION=${VERSION:-latest}
+        - GIT_COMMIT=${GIT_COMMIT:-unknown}
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+        - BASE_IMAGE=nunenuh/fastapi-service-base:${VERSION:-latest}
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-local}
+    depends_on:
+      - api-base
+
+  api-base:
+    build:
+      context: ..
+      dockerfile: docker/images/Dockerfile.base
+      args:
+        - VERSION=${VERSION:-latest}
+        - GIT_COMMIT=${GIT_COMMIT:-unknown}
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+    image: nunenuh/fastapi-service-base:${VERSION:-latest}
+

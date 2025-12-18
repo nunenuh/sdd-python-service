@@ -1,0 +1,109 @@
+"""
+FastAPI application for FastAPI Service Boilerplate.
+
+This microservice provides a production-ready foundation for building
+FastAPI services with modern Python tooling and best practices.
+"""
+
+import logging
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from .core.config import get_settings
+from .core.logging import setup_logging
+from .router import api_router
+
+logger = logging.getLogger(__name__)
+
+
+def get_docs_path():
+    """Get docs path based on environment."""
+    settings = get_settings()
+    if settings.APP_ENVIRONMENT in ["development", "local", "staging"]:
+        return "/docs"
+    return None
+
+
+def get_redoc_path():
+    """Get redoc path based on environment."""
+    settings = get_settings()
+    if settings.APP_ENVIRONMENT in ["development", "local", "staging"]:
+        return "/redoc"
+    return None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Handle application lifespan events (startup and shutdown)."""
+    # Startup
+    logger.info("Application starting up...")
+    logger.info("✅ Application startup complete")
+    yield
+    # Shutdown
+    logger.info("Application shutting down...")
+    logger.info("✅ Application shutdown complete")
+
+
+def create_app() -> FastAPI:
+    """Create and configure the FastAPI application."""
+    settings = get_settings()
+    setup_logging()
+
+    app = FastAPI(
+        title=settings.APP_NAME,
+        description=settings.APP_DESCRIPTION,
+        version=settings.APP_VERSION,
+        docs_url=get_docs_path(),
+        redoc_url=get_redoc_path(),
+        debug=settings.APP_DEBUG,
+        lifespan=lifespan,
+    )
+
+    # CORS middleware
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # Include routers
+    app.include_router(api_router, prefix="/api")
+
+    return app
+
+
+app = create_app()
+
+
+def main():
+    """Main entry point for running the application."""
+    import uvicorn
+
+    settings = get_settings()
+    uvicorn.run(
+        "fastapi_service.main:app",
+        host=settings.APP_HOST,
+        port=settings.APP_PORT,
+        reload=settings.APP_DEBUG,
+    )
+
+
+def dev():
+    """Development entry point with auto-reload."""
+    import uvicorn
+
+    settings = get_settings()
+    uvicorn.run(
+        "fastapi_service.main:app",
+        host=settings.APP_HOST,
+        port=settings.APP_PORT,
+        reload=True,
+    )
+
+
+if __name__ == "__main__":
+    main()

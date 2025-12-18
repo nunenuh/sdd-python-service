@@ -1,0 +1,30 @@
+---
+description: Cursor collaboration guidelines
+globs: 
+alwaysApply: false
+---
+# Cursor Collaboration Rules v1
+
+## Code Review Guidelines
+- Review code for correctness, not style (style is automated)
+- Focus on logic, architecture, and edge cases
+- Be constructive and respectful
+- Ask questions rather than making demands
+
+## Pair Programming
+- Take turns driving
+- Communicate intentions clearly
+- Explain complex decisions
+- Share knowledge actively
+
+## Communication
+- Use clear commit messages
+- Document complex logic
+- Comment on "why" not "what"
+- Keep PR descriptions detailed
+
+## Best Practices
+- Write self-documenting code
+- Keep functions small and focused
+- Avoid premature optimization
+- Test edge cases thoroughly

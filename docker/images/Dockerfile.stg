@@ -1,0 +1,62 @@
+# Use base image from Docker Hub
+# When building locally via docker-compose, the base image is built first
+# When pulling from Docker Hub, use: nunenuh/fastapi-service-base:latest
+ARG BASE_IMAGE=nunenuh/fastapi-service-base:latest
+FROM ${BASE_IMAGE}
+
+ARG VERSION_TAG=latest
+ARG VERSION
+ARG GIT_COMMIT
+ARG BUILD_DATE
+
+# Add version labels
+LABEL org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.title="fastapi-service" \
+      org.opencontainers.image.description="Sain Crawler News Staging Image"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DEBIAN_FRONTEND=noninteractive \
+    POETRY_VERSION=1.8.4 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYTHONPATH=/app
+
+# Add Poetry to PATH
+ENV PATH="$POETRY_HOME/bin:$PATH"
+
+# Create and set working directory
+WORKDIR /app
+
+# Clean up base src and data
+RUN rm -rf /app/src
+
+# Copy project files
+COPY pyproject.toml ./
+COPY src/ ./src/
+COPY data/ ./data/
+COPY README.md ./README.md
+
+# Install the package itself (dependencies already installed in base image)
+RUN poetry install --only main --no-cache && \
+    rm -rf ~/.cache/pypoetry
+
+# Create necessary directories and set permissions
+RUN mkdir -p data && \
+    chmod -R 755 /app && \
+    useradd -m -u 1000 appuser && \
+    chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8080
+
+# Command to run the FastAPI application with uvicorn
+ENTRYPOINT ["poetry", "run", "uvicorn", "fastapi_service.main:app", "--host", "0.0.0.0", "--port", "8080"]
+

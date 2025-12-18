@@ -1,0 +1,60 @@
+# Use Python 3.11 slim as base image
+FROM python:3.11-slim
+
+ARG VERSION_TAG=latest
+ARG VERSION
+ARG GIT_COMMIT
+ARG BUILD_DATE
+
+# Add version labels
+LABEL org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${GIT_COMMIT}" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.title="fastapi-service-base" \
+      org.opencontainers.image.description="Sain Crawler News Base Image"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DEBIAN_FRONTEND=noninteractive \
+    POETRY_VERSION=1.8.4 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYTHONPATH=/app
+
+# Add Poetry to PATH
+ENV PATH="$POETRY_HOME/bin:$PATH"
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    curl \
+    build-essential \
+    git \
+    openssh-client \
+    pkg-config \
+    libpq-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libffi-dev \
+    libssl-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install Poetry
+    && curl -sSL https://install.python-poetry.org | python3 -
+
+# Create and set working directory
+WORKDIR /app
+
+# Copy only dependency files first
+COPY pyproject.toml ./
+
+# Install dependencies only (not the package itself)
+# Use --no-root to skip installing the package, since src/ is not copied yet
+RUN poetry install --only main --no-root --no-cache && \
+    rm -rf ~/.cache/pypoetry
+
+# Expose port
+EXPOSE 8080
+

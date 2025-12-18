@@ -1,0 +1,30 @@
+---
+description: Testing strategy guidelines (not implemented yet)
+globs: 
+alwaysApply: false
+---
+# Cursor Test Strategy Rules v1 (Not Implemented Yet)
+
+## Test Pyramid
+- Unit tests (70%)
+- Integration tests (20%)
+- E2E tests (10%)
+
+## Test Coverage Goals
+- Minimum 80% code coverage
+- 100% for critical paths
+- Test edge cases
+- Test error scenarios
+
+## Test Types
+- Unit: Fast, isolated, mock dependencies
+- Integration: Test component interactions
+- E2E: Test full workflows
+- Performance: Test under load
+
+## Test Best Practices
+- Write tests before code (TDD)
+- Keep tests simple and focused
+- Use descriptive test names
+- Clean up test data
+- Mock external dependencies

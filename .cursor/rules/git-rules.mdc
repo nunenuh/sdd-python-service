@@ -1,0 +1,163 @@
+---
+description: Git commit and workflow rules
+globs: 
+alwaysApply: false
+---
+# Git Commit Rules for Cursor AI
+
+## Pre-Commit Analysis (MANDATORY)
+
+**ALWAYS do these steps before any git commit:**
+
+1. **Check current branch**: `git branch --show-current` - extract issue number from branch name
+2. **Check status**: `git status` - understand what files are changed
+3. **Review diffs**: `git diff` and `git diff --cached` - read what actually changed  
+4. **Understand context**: Read the file changes to understand the purpose
+5. **Verify issue number**: Ensure branch name contains issue number (format: `issue-<number>`)
+
+## Individual File Commits (REQUIRED)
+
+**IMPORTANT**: Always commit files individually and chain multiple files in one command, not as a directory or all at once.
+
+Use chaining commands with `&&` to add and commit each file separately:
+
+**IMPORTANT**: Extract issue number from current branch name and include in commit message.
+
+```bash
+# First, get issue number from branch name
+# If branch is: feature/issue-123-add-kompas-spider
+# Extract: 123
+
+# Chain multiple files in one command (use this as high priority)
+git add file1.py && git commit -m 'feat(scope): description for file1
+
+Closes #123' && \
+git add file2.py && git commit -m 'fix(scope): description for file2
+
+Closes #123' && \
+git add file3.md && git commit -m 'docs(scope): description for file3
+
+Closes #123'
+
+# Wrong approach - avoid these
+git add .  # Don't add all files at once
+git add src/  # Don't add entire directories
+git commit -m 'message'  # Don't forget issue reference
+```
+
+## Conventional Commit Format (REQUIRED: Include Issue Reference)
+
+**MANDATORY**: All commit messages MUST include issue reference in the footer.
+
+```
+<type>(scope): <description>
+
+[optional body explaining why/how]
+
+Closes #<issue-number>
+OR
+Refs #<issue-number>
+```
+
+### Issue Reference Rules
+
+1. **Extract issue number from branch name** - If branch is `feature/issue-123-description`, use `#123`
+2. **Use `Closes #<number>`** - When the commit fully resolves the issue
+3. **Use `Refs #<number>`** - When the commit relates to but doesn't fully resolve the issue
+4. **Multiple issues** - Use `Closes #123, #456` or `Refs #123, #456`
+
+### Required Types & Examples
+
+| Type | When to Use | Example |
+|------|-------------|---------|
+| `feat` | New functionality | `feat(crawler): implement Kompas spider` |
+| `fix` | Bug repairs | `fix(parser): handle null JSON values` |
+| `docs` | Documentation only | `docs(api): update endpoint examples` |
+| `refactor` | Code restructuring | `refactor(service): extract common logic` |
+| `test` | Adding tests | `test(health): add integration tests` |
+| `chore` | Maintenance tasks | `chore(deps): update dependencies` |
+| `perf` | Performance improvements | `perf(crawler): optimize article extraction` |
+
+### Scope Examples
+
+- `crawler` - Scrapy spiders and crawler logic
+- `api` - FastAPI endpoints and routes
+- `db` - Database models and migrations
+- `config` - Configuration management
+- `health` - Health check endpoints
+- `docs` - Documentation files
+
+## Commit Message Examples (WITH Issue References)
+
+```bash
+# Branch: feature/issue-123-add-kompas-spider
+feat(crawler): add Kompas.com spider with article extraction
+
+Closes #123
+
+# Branch: fix/issue-456-handle-missing-author
+fix(api): handle missing author field in article response
+
+Closes #456
+
+# Branch: docs/issue-789-update-readme
+docs(readme): update installation instructions
+
+Closes #789
+
+# Branch: refactor/issue-101-extract-validation
+refactor(service): extract article validation logic
+
+Refs #101
+
+# Branch: test/issue-234-add-health-tests
+test(health): add unit tests for health service
+
+Closes #234
+
+# Branch: chore/issue-567-update-deps
+chore(deps): update scrapy to 2.11.1
+
+Refs #567
+
+# Branch: perf/issue-890-optimize-parsing
+perf(crawler): optimize CSS selector parsing
+
+Closes #890
+```
+
+## Branch Naming (REQUIRED: Include Issue Number)
+
+**MANDATORY**: All branch names MUST include the issue number in the format: `issue-<number>` or `<type>/issue-<number>-description`
+
+### Branch Naming Format
+
+```
+<type>/issue-<number>-<description>
+```
+
+### Examples
+
+- `feature/issue-123-add-kompas-spider` - New features
+- `fix/issue-456-handle-timeout-errors` - Bug fixes
+- `docs/issue-789-update-readme` - Documentation updates
+- `refactor/issue-101-extract-common-logic` - Code refactoring
+- `test/issue-234-add-health-tests` - Test additions
+
+### Extracting Issue Number from Branch
+
+**ALWAYS** extract the issue number from the branch name and include it in commit messages:
+
+```bash
+# If branch is: feature/issue-123-add-kompas-spider
+# Extract issue number: 123
+# Use in commit: Closes #123 or Refs #123
+```
+
+## Pull Request Guidelines
+
+- Write descriptive PR titles
+- Include issue references in PR description
+- Add screenshots for UI changes
+- Ensure all tests pass
+- Request review from team members

@@ -1,0 +1,25 @@
+---
+description: Debugging guidelines (not implemented yet)
+globs: 
+alwaysApply: false
+---
+# Cursor Debug Rules v1 (Not Implemented Yet)
+
+## Debugging Process
+1. Reproduce the issue
+2. Add logging/debugging statements
+3. Isolate the problem
+4. Fix the root cause
+5. Add tests to prevent regression
+
+## Debugging Tools
+- Python debugger (pdb)
+- Logging statements
+- Print statements (temporary)
+- Error tracking (Sentry)
+
+## Best Practices
+- Understand the problem before fixing
+- Test the fix thoroughly
+- Document the solution
+- Learn from the issue

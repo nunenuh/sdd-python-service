@@ -1,0 +1,45 @@
+---
+description: Pull request message template
+globs: 
+alwaysApply: false
+---
+# Pull Request Template
+
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Related Issues
+
+**MANDATORY**: Extract issue number from branch name and reference here.
+
+- Closes #issue_number (if PR fully resolves the issue)
+- Refs #issue_number (if PR relates to but doesn't fully resolve)
+- Related to #issue_number (for related issues)
+
+**Example**: If branch is `feature/issue-123-add-kompas-spider`, use:
+- Closes #123
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Comments added for complex logic
+- [ ] Documentation updated
+- [ ] No new warnings generated
+- [ ] Tests pass locally
+
+## Screenshots (if applicable)
+Add screenshots here
+
+## Additional Notes
+Any additional information

@@ -1,0 +1,167 @@
+# version: '3.8'  # Removed - obsolete in newer Docker Compose versions
+
+services:
+  api:
+    hostname: fastapi-service-api-docker-local
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-local}
+    command: python -m fastapi_service.main
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../.env
+    depends_on:
+      - postgres
+      - redis
+      - meilisearch
+      # - elasticsearch  # Kept for migration period
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - sain-crawler-network
+    restart: unless-stopped
+
+  celery-worker:
+    hostname: fastapi-service-worker-docker-local
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-local}
+    command: celery -A fastapi_service.worker worker --loglevel=info
+    env_file:
+      - ../.env
+    depends_on:
+      - redis
+      - postgres
+      - meilisearch
+      # - elasticsearch  # Kept for migration period
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src
+      - ../data/httpcache:/app/httpcache  # Scrapy HTTP cache
+    networks:
+      - sain-crawler-network
+    restart: unless-stopped
+
+  celery-beat:
+    hostname: fastapi-service-beat-docker-local
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-local}
+    command: celery -A fastapi_service.worker beat --loglevel=info
+    env_file:
+      - ../.env
+    depends_on:
+      - redis
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src
+      - ../data/httpcache:/app/httpcache  # Scrapy HTTP cache
+    networks:
+      - sain-crawler-network
+    restart: unless-stopped
+
+  flower:
+    hostname: fastapi-service-flower-docker-local
+    image: nunenuh/fastapi-service:${VERSION:-latest}-${GIT_BRANCH:-local}
+    command: celery -A fastapi_service.worker flower --port=5555
+    ports:
+      - "5555:5555"
+    env_file:
+      - ../.env
+    depends_on:
+      - redis
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src
+    networks:
+      - sain-crawler-network
+    restart: unless-stopped
+
+  postgres:
+    hostname: postgres-docker-local
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-fastapi_service}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sain-crawler-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    hostname: redis-docker-local
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - sain-crawler-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  meilisearch:
+    hostname: meilisearch-docker-local
+    image: getmeili/meilisearch:v1.7
+    environment:
+      - MEILI_MASTER_KEY=${MEILISEARCH_MASTER_KEY:-master-key-change-in-production}
+      - MEILI_ENV=development
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch_data:/meili_data
+    networks:
+      - sain-crawler-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # elasticsearch:  # Kept for migration period, can remove later
+  #   hostname: elasticsearch-docker-local
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   volumes:
+  #     - elasticsearch_data:/usr/share/elasticsearch/data
+  #   networks:
+  #     - sain-crawler-network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   restart: unless-stopped
+
+networks:
+  sain-crawler-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  meilisearch_data:
+  # elasticsearch_data:  # Kept for migration period
+

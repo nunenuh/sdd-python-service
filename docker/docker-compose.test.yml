@@ -1,0 +1,76 @@
+version: '3.8'
+
+# Docker Compose configuration for infrastructure testing
+# This file is used by pytest to spin up test infrastructure services
+
+services:
+  postgres-test:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: fastapi_service_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"  # Different port to avoid conflicts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    tmpfs:
+      - /var/lib/postgresql/data  # Use tmpfs for faster tests
+    networks:
+      - test-network
+
+  redis-test:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"  # Different port to avoid conflicts
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    tmpfs:
+      - /data  # Use tmpfs for faster tests
+    networks:
+      - test-network
+
+  meilisearch-test:
+    image: getmeili/meilisearch:v1.7
+    environment:
+      - MEILI_MASTER_KEY=test-master-key
+      - MEILI_ENV=development
+    ports:
+      - "7701:7700"  # Different port to avoid conflicts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    tmpfs:
+      - /meili_data  # Use tmpfs for faster tests
+    networks:
+      - test-network
+
+  # elasticsearch-test:  # Kept for migration period, can remove later
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #     - "ES_JAVA_OPTS=-Xms256m -Xmx256m"  # Lower memory for tests
+  #   ports:
+  #     - "9201:9200"  # Different port to avoid conflicts
+  #     - "9301:9300"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 10
+  #   networks:
+  #     - test-network
+
+networks:
+  test-network:
+    driver: bridge
+

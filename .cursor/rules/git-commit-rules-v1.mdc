@@ -1,0 +1,69 @@
+---
+description: Git commit message conventions
+globs: 
+alwaysApply: false
+---
+# Git Commit Rules v1
+
+Follow conventional commits format strictly. **MANDATORY**: Include issue reference from branch name.
+
+## Format
+```
+<type>(<scope>): <subject>
+
+<body>
+
+Closes #<issue-number>
+OR
+Refs #<issue-number>
+```
+
+## Pre-Commit Checklist
+
+1. ✅ Extract issue number from branch name (e.g., `feature/issue-123-description` → `123`)
+2. ✅ Include issue reference in commit footer (`Closes #123` or `Refs #123`)
+3. ✅ Use appropriate commit type
+4. ✅ Write clear, descriptive subject line
+
+## Types
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Formatting
+- `refactor`: Code restructuring
+- `test`: Tests
+- `chore`: Maintenance
+
+## Branch Naming (Required)
+
+**MUST** include issue number: `<type>/issue-<number>-<description>`
+
+Examples:
+- `feature/issue-123-add-kompas-spider`
+- `fix/issue-456-handle-timeout`
+- `docs/issue-789-update-readme`
+
+## Examples
+
+```bash
+# Branch: feature/issue-123-add-detik-spider
+feat(crawler): add Detik.com spider
+
+Closes #123
+
+# Branch: fix/issue-456-handle-timeout
+fix(api): handle timeout errors gracefully
+
+Closes #456
+
+# Branch: docs/issue-789-quickstart
+docs(readme): add quickstart guide
+
+Closes #789
+```
+
+## Issue Reference Rules
+
+- **`Closes #<number>`** - Use when commit fully resolves the issue
+- **`Refs #<number>`** - Use when commit relates to but doesn't fully resolve
+- **Multiple issues** - `Closes #123, #456` or `Refs #123, #456`
