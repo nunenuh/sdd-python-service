@@ -45,8 +45,8 @@ async def get_current_weather(
     usecase = WeatherUseCase()
 
     try:
-        current, location_name, timezone_str, lat, lon = await usecase.get_current_weather(
-            latitude, longitude, timezone
+        current, location_name, timezone_str, lat, lon = (
+            await usecase.get_current_weather(latitude, longitude, timezone)
         )
 
         return WeatherResponse(
@@ -98,7 +98,9 @@ async def get_weather_forecast(
     hourly: bool = Query(
         default=True, description="Include hourly forecast (next 48 hours)"
     ),
-    daily: bool = Query(default=True, description="Include daily forecast (next 7 days)"),
+    daily: bool = Query(
+        default=True, description="Include daily forecast (next 7 days)"
+    ),
 ):
     """
     Get current weather with hourly and daily forecasts.
@@ -152,4 +154,3 @@ async def get_weather_forecast(
                 "timestamp": datetime.now(UTC).isoformat(),
             },
         )
-

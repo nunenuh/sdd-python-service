@@ -36,4 +36,3 @@ class HealthUseCase:
             Tuple of (overall_status, components, system_metrics, process_metrics, system_info, uptime_seconds)
         """
         return self.service.get_detailed_health()
-

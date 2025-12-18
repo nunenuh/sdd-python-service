@@ -61,4 +61,3 @@ class WeatherUseCase:
         return await self.service.get_weather_with_forecast(
             latitude, longitude, timezone, hourly, daily
         )
-

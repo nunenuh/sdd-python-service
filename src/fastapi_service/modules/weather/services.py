@@ -241,11 +241,17 @@ class WeatherService:
                     for i, time_str in enumerate(times[:48]):  # Limit to 48 hours
                         hourly_forecast.append(
                             HourlyForecast(
-                                time=datetime.fromisoformat(time_str.replace("Z", "+00:00")),
+                                time=datetime.fromisoformat(
+                                    time_str.replace("Z", "+00:00")
+                                ),
                                 temperature=hourly_data.get("temperature_2m", [0.0])[i],
-                                humidity=hourly_data.get("relative_humidity_2m", [0])[i],
+                                humidity=hourly_data.get("relative_humidity_2m", [0])[
+                                    i
+                                ],
                                 wind_speed=hourly_data.get("wind_speed_10m", [0.0])[i],
-                                wind_direction=hourly_data.get("wind_direction_10m", [0])[i],
+                                wind_direction=hourly_data.get(
+                                    "wind_direction_10m", [0]
+                                )[i],
                                 weather_code=hourly_data.get("weather_code", [0])[i],
                                 weather_description=self._get_weather_code_description(
                                     hourly_data.get("weather_code", [0])[i]
@@ -265,14 +271,22 @@ class WeatherService:
                         daily_forecast.append(
                             DailyForecast(
                                 date=datetime.fromisoformat(date_str),
-                                temperature_max=daily_data.get("temperature_2m_max", [0.0])[i],
-                                temperature_min=daily_data.get("temperature_2m_min", [0.0])[i],
+                                temperature_max=daily_data.get(
+                                    "temperature_2m_max", [0.0]
+                                )[i],
+                                temperature_min=daily_data.get(
+                                    "temperature_2m_min", [0.0]
+                                )[i],
                                 weather_code=daily_data.get("weather_code", [0])[i],
                                 weather_description=self._get_weather_code_description(
                                     daily_data.get("weather_code", [0])[i]
                                 ),
-                                precipitation_sum=daily_data.get("precipitation_sum", [None])[i],
-                                wind_speed_max=daily_data.get("wind_speed_10m_max", [None])[i],
+                                precipitation_sum=daily_data.get(
+                                    "precipitation_sum", [None]
+                                )[i],
+                                wind_speed_max=daily_data.get(
+                                    "wind_speed_10m_max", [None]
+                                )[i],
                             )
                         )
 
@@ -307,4 +321,3 @@ def get_weather_service() -> WeatherService:
     if _weather_service is None:
         _weather_service = WeatherService()
     return _weather_service
-

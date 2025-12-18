@@ -72,9 +72,7 @@ def weather_forecast(
     no_hourly: bool = typer.Option(
         False, "--no-hourly", help="Exclude hourly forecast"
     ),
-    no_daily: bool = typer.Option(
-        False, "--no-daily", help="Exclude daily forecast"
-    ),
+    no_daily: bool = typer.Option(False, "--no-daily", help="Exclude daily forecast"),
 ):
     """Get weather forecast with current conditions."""
     setup_logging()
@@ -153,9 +151,7 @@ def weather_forecast(
 
             for forecast in daily_forecast:
                 date_str = forecast.date.strftime("%Y-%m-%d")
-                temp_str = (
-                    f"{forecast.temperature_max}°/{forecast.temperature_min}°"
-                )
+                temp_str = f"{forecast.temperature_max}°/{forecast.temperature_min}°"
                 precip_str = (
                     f"{forecast.precipitation_sum or 0}mm"
                     if forecast.precipitation_sum
@@ -184,4 +180,3 @@ def weather_forecast(
 def get_weather_app() -> typer.Typer:
     """Get the weather Typer app for registration in main CLI."""
     return weather_app
-

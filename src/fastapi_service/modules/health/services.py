@@ -16,6 +16,7 @@ import psutil
 
 from fastapi_service.core.config import get_settings
 from fastapi_service.core.logging import get_logger
+
 from .schemas import ComponentHealth, ProcessMetrics, SystemInfo, SystemMetrics
 
 logger = get_logger(__name__)
@@ -89,6 +90,7 @@ class ComponentHealthService:
                 message=f"Redis check failed: {str(e)}",
                 response_time_ms=response_time,
             )
+
 
 class HealthService:
     """Main health service for aggregating health checks."""

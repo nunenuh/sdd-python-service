@@ -19,7 +19,9 @@ class CurrentWeather(BaseModel):
     wind_speed: float = Field(..., description="Wind speed in km/h")
     wind_direction: int = Field(..., description="Wind direction in degrees")
     weather_code: int = Field(..., description="Weather condition code")
-    weather_description: str = Field(..., description="Human-readable weather description")
+    weather_description: str = Field(
+        ..., description="Human-readable weather description"
+    )
     pressure: Optional[float] = Field(None, description="Atmospheric pressure in hPa")
     visibility: Optional[float] = Field(None, description="Visibility in km")
 
@@ -33,7 +35,9 @@ class HourlyForecast(BaseModel):
     wind_speed: float = Field(..., description="Wind speed in km/h")
     wind_direction: int = Field(..., description="Wind direction in degrees")
     weather_code: int = Field(..., description="Weather condition code")
-    weather_description: str = Field(..., description="Human-readable weather description")
+    weather_description: str = Field(
+        ..., description="Human-readable weather description"
+    )
     precipitation_probability: Optional[int] = Field(
         None, description="Precipitation probability percentage"
     )
@@ -46,11 +50,15 @@ class DailyForecast(BaseModel):
     temperature_max: float = Field(..., description="Maximum temperature in Celsius")
     temperature_min: float = Field(..., description="Minimum temperature in Celsius")
     weather_code: int = Field(..., description="Weather condition code")
-    weather_description: str = Field(..., description="Human-readable weather description")
+    weather_description: str = Field(
+        ..., description="Human-readable weather description"
+    )
     precipitation_sum: Optional[float] = Field(
         None, description="Total precipitation in mm"
     )
-    wind_speed_max: Optional[float] = Field(None, description="Maximum wind speed in km/h")
+    wind_speed_max: Optional[float] = Field(
+        None, description="Maximum wind speed in km/h"
+    )
 
 
 class WeatherResponse(BaseModel):
@@ -76,4 +84,3 @@ class WeatherErrorResponse(BaseModel):
     error: str = Field(..., description="Error type")
     message: str = Field(..., description="Error message")
     timestamp: datetime = Field(..., description="Error timestamp")
-

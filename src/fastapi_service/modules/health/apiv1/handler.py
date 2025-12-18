@@ -17,6 +17,7 @@ from fastapi import APIRouter, HTTPException
 
 from fastapi_service.core.config import get_settings
 from fastapi_service.core.logging import get_logger
+
 from ..schemas import DetailedHealthResponse, HealthStatusResponse, PingResponse
 from ..usecase import HealthUseCase
 

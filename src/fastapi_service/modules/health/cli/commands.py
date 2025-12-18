@@ -192,9 +192,7 @@ def health_detailed():
             "Memory Available", f"{system_metrics.memory_available_gb:.2f} GB"
         )
         system_table.add_row("Disk Usage", f"{system_metrics.disk_usage_percent:.1f}%")
-        system_table.add_row(
-            "Disk Free", f"{system_metrics.disk_free_gb:.2f} GB"
-        )
+        system_table.add_row("Disk Free", f"{system_metrics.disk_free_gb:.2f} GB")
         system_table.add_row(
             "Network Sent",
             f"{system_metrics.network_bytes_sent / (1024**2):.2f} MB",
@@ -217,17 +215,11 @@ def health_detailed():
         process_table.add_column("Value", style="green")
 
         process_table.add_row("Process ID", str(process_metrics.pid))
-        process_table.add_row(
-            "Memory RSS", f"{process_metrics.memory_rss_mb:.2f} MB"
-        )
-        process_table.add_row(
-            "Memory VMS", f"{process_metrics.memory_vms_mb:.2f} MB"
-        )
+        process_table.add_row("Memory RSS", f"{process_metrics.memory_rss_mb:.2f} MB")
+        process_table.add_row("Memory VMS", f"{process_metrics.memory_vms_mb:.2f} MB")
         process_table.add_row("CPU Usage", f"{process_metrics.cpu_percent:.1f}%")
         process_table.add_row("Threads", str(process_metrics.num_threads))
-        process_table.add_row(
-            "Uptime", f"{process_metrics.uptime_seconds:.0f} seconds"
-        )
+        process_table.add_row("Uptime", f"{process_metrics.uptime_seconds:.0f} seconds")
         process_table.add_row("Open Files", str(process_metrics.open_files))
 
         console.print("\n")
@@ -263,4 +255,3 @@ def health_detailed():
 def get_health_app() -> typer.Typer:
     """Get the health Typer app for registration in main CLI."""
     return health_app
-

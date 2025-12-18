@@ -29,9 +29,7 @@ app = typer.Typer(
 def version():
     """Show application version."""
     settings = get_settings()
-    console.print(
-        f"[bold green]FastAPI Service[/bold green] v{settings.APP_VERSION}"
-    )
+    console.print(f"[bold green]FastAPI Service[/bold green] v{settings.APP_VERSION}")
 
 
 # Register module commands
@@ -60,7 +58,7 @@ except ImportError:
 def main():
     """Main CLI entry point."""
     import sys
-    
+
     # Handle Rich compatibility issue only for help command
     if "--help" in sys.argv or "-h" in sys.argv or len(sys.argv) == 1:
         try:
@@ -69,6 +67,7 @@ def main():
             if "make_metavar" in str(e) or "ctx" in str(e):
                 # Fallback: Use Click directly for help
                 import click
+
                 click.echo("FastAPI Service CLI")
                 click.echo("\nAvailable commands:")
                 click.echo("  version              Show application version")
@@ -89,4 +88,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

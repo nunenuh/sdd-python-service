@@ -28,4 +28,3 @@ def print_info(message: str) -> None:
 def print_warning(message: str) -> None:
     """Print a warning message."""
     console.print(f"[bold yellow]⚠[/bold yellow] {message}")
-

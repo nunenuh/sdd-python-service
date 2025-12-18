@@ -98,8 +98,7 @@ class Settings(BaseSettings):
         default="http://localhost:7700", description="Meilisearch server URL"
     )
     MEILISEARCH_MASTER_KEY: str = Field(
-        default="master-key-change-in-production",
-        description="Meilisearch master key"
+        default="master-key-change-in-production", description="Meilisearch master key"
     )
     MEILISEARCH_INDEX_NAME: str = Field(
         default="articles", description="Meilisearch index name"

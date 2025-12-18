@@ -1,4 +1,3 @@
 """
 Health module CLI commands.
 """
-
