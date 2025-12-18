@@ -54,6 +54,15 @@ except ImportError:
     # Module not available or doesn't have CLI commands
     pass
 
+# Quotes module commands
+try:
+    from fastapi_service.modules.quotes.cli.commands import get_quotes_app
+
+    app.add_typer(get_quotes_app(), name="quotes")
+except ImportError:
+    # Module not available or doesn't have CLI commands
+    pass
+
 
 def main():
     """Main CLI entry point."""
@@ -78,6 +87,11 @@ def main():
                 click.echo("    ping               Simple liveness check")
                 click.echo("    status             Basic health status")
                 click.echo("    detailed           Detailed health with metrics")
+                click.echo("  quotes               Quotes-related commands")
+                click.echo("    random             Get a random quote")
+                click.echo("    get                Get a quote by ID")
+                click.echo("    search             Search quotes with filters")
+                click.echo("    author             Get quotes by author")
                 click.echo("\nUse 'cli <command> --help' for more information")
                 sys.exit(0)
             raise
