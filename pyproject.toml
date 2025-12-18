@@ -1,0 +1,104 @@
+[tool.poetry]
+name = "fastapi-service"
+version = "0.1.0"
+description = "FastAPI Service Boilerplate"
+authors = ["Lalu Erfandi Maula Yusnu <nunenuh@gmail.com>"]
+packages = [
+    { include = "fastapi_service", from = "src" }
+]
+
+[tool.poetry.scripts]
+start = "fastapi_service.main:main"
+dev = "fastapi_service.main:dev"
+cli = "fastapi_service.cli.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.14"
+uvicorn = {extras = ["standard"], version = "^0.35.0"}
+python-multipart = "^0.0.20"
+pydantic = "^2.11.7"
+pydantic-settings = "^2.10.1"
+python-dotenv = "^1.1.1"
+# Database
+sqlalchemy = "^2.0.42"
+psycopg2-binary = "^2.9.9"
+alembic = "^1.13.0"
+# Cache & Queue
+redis = "^5.0.0"
+hiredis = "^2.3.2"
+# HTTP & Requests
+requests = "^2.32.4"
+httpx = "^0.28.1"
+# Utilities
+psutil = "^7.0.0"
+python-dateutil = "^2.9.0"
+structlog = "^24.1.0"  # Structured logging
+pyyaml = "^6.0.3"  # Explicitly pin newer version for PEP 517 compatibility
+# CLI
+typer = {extras = ["all"], version = "^0.12.0"}  # CLI framework (created by FastAPI author)
+rich = "^13.7.0"  # Rich terminal output for Typer
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+pytest-asyncio = "^1.1.0"
+pytest-cov = "^6.2.1"
+# pytest-docker-compose removed - using direct docker-compose subprocess instead
+# (pytest-docker-compose conflicts with PyYAML 6.0+ which is needed for PEP 517)
+httpx = "^0.28.1"
+black = "^24.1.1"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+autoflake = "^2.2.1"
+mypy = "^1.8.0"
+pre-commit = "^4.2.0"
+pytest-html = "^4.1.1"
+pytest-mock = "^3.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["fastapi_service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+

@@ -1,0 +1,4 @@
+"""
+Weather module CLI commands.
+"""
+
