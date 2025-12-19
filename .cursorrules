@@ -238,3 +238,4 @@ make clean            # Clean temporary files
 - Update documentation when making changes
 - Follow the established directory structure
 - Use health check endpoints for monitoring (`/api/v1/health/*`)
+

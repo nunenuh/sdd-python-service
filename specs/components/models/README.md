@@ -22,3 +22,16 @@ Reference these models in your API specifications:
 schema:
   $ref: './components/models/user-model.yaml'
 ```
+
+
+- **Model Specifications**: OpenAPI/JSON Schema definitions for each model
+- **Model Relationships**: Documentation of relationships between models
+
+## Usage
+
+Reference these models in your API specifications:
+
+```yaml
+schema:
+  $ref: './components/models/user-model.yaml'
+```

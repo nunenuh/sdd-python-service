@@ -22,3 +22,16 @@ These examples are used for:
 - Testing
 - Client SDK generation
 - Developer onboarding
+
+## Contents
+
+- **JSON Request Examples**: Example request bodies for POST/PUT endpoints
+- **Query Parameter Examples**: Example query strings for GET endpoints
+
+## Usage
+
+These examples are used for:
+- API documentation
+- Testing
+- Client SDK generation
+- Developer onboarding

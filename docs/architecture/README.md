@@ -22,3 +22,16 @@ Reference this documentation to understand:
 - Overall system architecture
 - Component relationships
 - Design decisions
+
+## Contents
+
+- **Architecture Diagrams**: System architecture visualizations
+- **Design Documents**: Technical design documents
+- **Patterns**: Architecture patterns used
+
+## Usage
+
+Reference this documentation to understand:
+- Overall system architecture
+- Component relationships
+- Design decisions

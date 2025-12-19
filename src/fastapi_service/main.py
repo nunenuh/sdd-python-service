@@ -6,7 +6,6 @@ FastAPI services with modern Python tooling and best practices.
 """
 
 import logging
-from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,18 +33,6 @@ def get_redoc_path():
     return None
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Handle application lifespan events (startup and shutdown)."""
-    # Startup
-    logger.info("Application starting up...")
-    logger.info("✅ Application startup complete")
-    yield
-    # Shutdown
-    logger.info("Application shutting down...")
-    logger.info("✅ Application shutdown complete")
-
-
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
     settings = get_settings()
@@ -58,7 +45,6 @@ def create_app() -> FastAPI:
         docs_url=get_docs_path(),
         redoc_url=get_redoc_path(),
         debug=settings.APP_DEBUG,
-        lifespan=lifespan,
     )
 
     # CORS middleware
@@ -77,6 +63,20 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Handle application startup."""
+    logger.info("Application starting up...")
+    logger.info("✅ Application startup complete")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Handle application shutdown."""
+    logger.info("Application shutting down...")
+    logger.info("✅ Application shutdown complete")
 
 
 def main():

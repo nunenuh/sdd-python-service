@@ -22,3 +22,16 @@ responses:
   '400':
     $ref: './components/common/error-responses.yaml#/BadRequest'
 ```
+
+- **Health Check Response**: Health check endpoint response format
+- **Common Headers**: Standard HTTP headers
+
+## Usage
+
+Reference these components in your OpenAPI specifications using `$ref`:
+
+```yaml
+responses:
+  '400':
+    $ref: './components/common/error-responses.yaml#/BadRequest'
+```

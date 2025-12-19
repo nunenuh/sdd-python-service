@@ -21,3 +21,15 @@ These specifications ensure:
 - Consistent validation across the API
 - Clear validation error messages
 - Business rule enforcement
+
+## Contents
+
+- **Business Rules**: Business logic validation rules
+- **Input Validation**: Request validation schemas and rules
+
+## Usage
+
+These specifications ensure:
+- Consistent validation across the API
+- Clear validation error messages
+- Business rule enforcement

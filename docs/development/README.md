@@ -22,3 +22,16 @@ Reference this documentation when:
 - Setting up development environment
 - Contributing to the project
 - Following coding standards
+
+## Contents
+
+- **Setup Guides**: Setting up development environment
+- **Contribution Guidelines**: How to contribute to the project
+- **Coding Standards**: Code style and conventions
+
+## Usage
+
+Reference this documentation when:
+- Setting up development environment
+- Contributing to the project
+- Following coding standards

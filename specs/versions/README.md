@@ -24,3 +24,18 @@ These specifications help:
 - Plan migrations
 - Understand version differences
 - Document breaking changes
+
+
+## Contents
+
+- **Changelog**: Detailed changelog for each version
+- **Version Specifications**: API version-specific specifications
+- **Migration Guides**: Guides for migrating between versions
+
+## Usage
+
+These specifications help:
+- Track API evolution
+- Plan migrations
+- Understand version differences
+- Document breaking changes

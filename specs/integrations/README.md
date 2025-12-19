@@ -23,3 +23,17 @@ These specifications help developers understand:
 - How to configure integrations
 - What to expect from external services
 - How to handle integration errors
+
+
+## Contents
+
+- **Integration Contracts**: API contracts for external services
+- **Configuration**: Required configuration for each integration
+- **Error Handling**: How to handle integration failures
+
+## Usage
+
+These specifications help developers understand:
+- How to configure integrations
+- What to expect from external services
+- How to handle integration errors

@@ -23,3 +23,17 @@ These specifications guide:
 - Test coverage goals
 - Test data preparation
 - Test execution strategies
+
+## Contents
+
+- **API Test Scenarios**: Test cases for API endpoints
+- **Integration Tests**: Integration test specifications
+- **Infrastructure Tests**: Tests for external dependencies
+
+## Usage
+
+These specifications guide:
+- Test implementation
+- Test coverage goals
+- Test data preparation
+- Test execution strategies

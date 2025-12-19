@@ -93,62 +93,6 @@ class Settings(BaseSettings):
             return f"redis://:{self.REDIS_PASSWORD}@{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
         return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
 
-    # Meilisearch Settings
-    MEILISEARCH_URL: str = Field(
-        default="http://localhost:7700", description="Meilisearch server URL"
-    )
-    MEILISEARCH_MASTER_KEY: str = Field(
-        default="master-key-change-in-production", description="Meilisearch master key"
-    )
-    MEILISEARCH_INDEX_NAME: str = Field(
-        default="articles", description="Meilisearch index name"
-    )
-
-    # Elasticsearch Settings (kept for migration period)
-    ELASTICSEARCH_HOST: str = Field(
-        default="localhost", description="Elasticsearch host"
-    )
-    ELASTICSEARCH_PORT: int = Field(default=9200, description="Elasticsearch port")
-    ELASTICSEARCH_USERNAME: str = Field(
-        default="", description="Elasticsearch username (empty if no auth)"
-    )
-    ELASTICSEARCH_PASSWORD: str = Field(
-        default="", description="Elasticsearch password (empty if no auth)"
-    )
-
-    @property
-    def elasticsearch_url(self) -> str:
-        """Get Elasticsearch connection URL."""
-        if self.ELASTICSEARCH_USERNAME and self.ELASTICSEARCH_PASSWORD:
-            return f"http://{self.ELASTICSEARCH_USERNAME}:{self.ELASTICSEARCH_PASSWORD}@{self.ELASTICSEARCH_HOST}:{self.ELASTICSEARCH_PORT}"
-        return f"http://{self.ELASTICSEARCH_HOST}:{self.ELASTICSEARCH_PORT}"
-
-    # Scrapy Settings
-    SCRAPY_CONCURRENT_REQUESTS: int = Field(
-        default=16, description="Maximum concurrent requests per spider"
-    )
-    SCRAPY_DOWNLOAD_DELAY: float = Field(
-        default=0.5, description="Download delay between requests (seconds)"
-    )
-    SCRAPY_RANDOMIZE_DOWNLOAD_DELAY: bool = Field(
-        default=True, description="Randomize download delay"
-    )
-    SCRAPY_AUTOTHROTTLE_ENABLED: bool = Field(
-        default=True, description="Enable automatic throttling"
-    )
-
-    # Crawler Settings
-    CRAWLER_USER_AGENT: str = Field(
-        default="SainCrawlerNews/0.1.0 (+https://github.com/OneDataID/fastapi-service)",
-        description="User agent for crawler requests",
-    )
-    CRAWLER_ROBOTS_TXT_COMPLIANCE: bool = Field(
-        default=True, description="Respect robots.txt"
-    )
-    CRAWLER_MAX_ARTICLES_PER_RUN: int = Field(
-        default=1000, description="Maximum articles to crawl per run"
-    )
-
     # Environment alias
     @property
     def ENVIRONMENT(self) -> str:

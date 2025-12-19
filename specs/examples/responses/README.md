@@ -22,3 +22,16 @@ These examples are used for:
 - Testing
 - Client SDK generation
 - Understanding response structures
+
+## Contents
+
+- **Success Response Examples**: Example responses for successful requests
+- **Error Response Examples**: Example error responses with different status codes
+
+## Usage
+
+These examples are used for:
+- API documentation
+- Testing
+- Client SDK generation
+- Understanding response structures
