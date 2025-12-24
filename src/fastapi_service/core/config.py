@@ -25,7 +25,7 @@ class Settings(BaseSettings):
         description="Application description",
     )
     APP_HOST: str = Field(default="0.0.0.0", description="Server host")
-    APP_PORT: int = Field(default=8080, description="Server port")
+    APP_PORT: int = Field(default=8081, description="Server port")
     APP_ENVIRONMENT: str = Field(
         default="development", description="Application environment"
     )

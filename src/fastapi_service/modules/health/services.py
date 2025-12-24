@@ -14,8 +14,8 @@ from typing import List, Tuple
 
 import psutil
 
-from ..core.config import get_settings
-from ..core.logging import get_logger
+from ...core.config import get_settings
+from ...core.logging import get_logger
 from .schemas import ComponentHealth, ProcessMetrics, SystemInfo, SystemMetrics
 
 logger = get_logger(__name__)
